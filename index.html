@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talent &amp; Succession · Journey Map (one-view matrix)</title>
+<style>
+  :root{
+    --blue:#0B5ED7; --dark-blue:#00126E; --light-blue:#BDF0FF;
+    --coral:#F85569; --dark-coral:#D43F44; --gold:#FFCF50; --dark-gold:#FCA708;
+    --green:#008800; --light-green:#ADFFB5; --aqua:#02ABB1; --dark-aqua:#00666F;
+    --ink:#1a1f2e; --muted:#5b6472; --line:#e3e7ee; --bg:#ffffff; --soft:#f5f7fb;
+    --t1:#0B5ED7; --t2:#02ABB1; --t3:#F85569;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; color:var(--ink); background:var(--soft);
+    font-family:"Neue Frutiger World","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; font-size:15px;}
+  a{color:var(--blue);}
+  .wrap{max-width:none; margin:0 auto; padding:0 20px 80px;}
+  /* Cover */
+  .cover{background:linear-gradient(135deg,var(--dark-blue),var(--blue)); color:#fff; padding:64px 20px;}
+  .cover .inner{max-width:none; margin:0 auto;}
+  .brand{font-weight:700; letter-spacing:.02em; margin-bottom:30px; opacity:.95;}
+  .cover .tag{display:inline-block; background:rgba(255,255,255,.15); padding:6px 14px; border-radius:20px; font-size:12px; letter-spacing:.06em; font-weight:600; text-transform:uppercase; margin-bottom:20px;}
+  .cover h1{font-size:38px; margin:0 0 14px; line-height:1.1;}
+  .cover p{font-size:18px; opacity:.94; max-width:820px; margin:0;}
+  /* Legend */
+  .legend{display:flex; gap:18px; flex-wrap:wrap; margin:22px 0 0; font-size:13px;}
+  .legend b{font-weight:700;}
+  .chip-theme{display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:middle; margin-right:6px;}
+  /* Section heads */
+  h2{font-size:24px; color:var(--dark-blue); margin:8px 0 6px;}
+  .kick{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:var(--blue); margin-top:56px;}
+  .lead{color:var(--muted); font-size:16px; max-width:900px;}
+  /* Layer 1 summary strip */
+  .strip{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin:22px 0 6px;}
+  .scol{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; display:flex; flex-direction:column;}
+  .scol .sh{padding:10px 10px 8px; color:#fff; font-size:12.5px; font-weight:700; min-height:70px;}
+  .scol.tt1 .sh{background:var(--t1);} .scol.tt2 .sh{background:var(--t2);} .scol.tt3 .sh{background:var(--t3);} .scol.ttg .sh{background:#5b6472;}
+  .scol .sh small{display:block; font-weight:600; opacity:.9; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase;}
+  .scol .q{padding:8px 10px; font-size:11.5px; color:var(--muted); font-style:italic; border-bottom:1px solid var(--line);}
+  .scol .emo{padding:8px 10px; font-size:20px; text-align:center;}
+  .scol .emo span{display:block; font-size:10.5px; color:var(--muted); font-style:normal;}
+  .scol .hp{padding:8px 10px; font-size:11.5px; color:var(--ink); border-top:1px solid var(--line); background:#fff5f6;}
+  .scol .hp b{color:var(--dark-coral);}
+  /* Filter */
+  .filterbar{position:sticky; top:0; z-index:30; background:rgba(245,247,251,.96); backdrop-filter:blur(6px); padding:14px 0; margin-top:20px; border-bottom:1px solid var(--line);}
+  .filterbar .lab{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-right:6px;}
+  .chip{display:inline-block; border:1px solid var(--line); background:#fff; color:var(--ink); padding:6px 14px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer; margin:3px;}
+  .chip:hover{border-color:var(--blue); color:var(--blue);}
+  .chip.active{background:var(--dark-blue); color:#fff; border-color:var(--dark-blue);}
+  /* Stage block */
+  .stage{border:1px solid var(--line); border-radius:16px; background:#fff; margin:20px 0; overflow:hidden;}
+  .stage-head{padding:18px 22px; color:#fff; display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap;}
+  .stage.s1 .stage-head,.stage.s2 .stage-head{background:linear-gradient(135deg,#00126E,var(--t1));}
+  .stage.s3 .stage-head{background:linear-gradient(135deg,#00126E,var(--t1));}
+  .stage.s4 .stage-head,.stage.s5 .stage-head,.stage.s6 .stage-head{background:linear-gradient(135deg,#7a2233,var(--t3));}
+  .stage.s7 .stage-head{background:linear-gradient(135deg,#2b3038,#5b6472);}
+  .stage-head .no{font-size:30px; font-weight:800; opacity:.55; line-height:1;}
+  .stage-head h3{margin:0; font-size:20px;}
+  .stage-head .km{opacity:.95; font-style:italic; margin-top:3px; font-size:14px;}
+  .stage-head .tagline{margin-left:auto; display:flex; gap:8px; align-items:center;}
+  .pill{display:inline-block; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; letter-spacing:.04em;}
+  .pill.theme{background:rgba(255,255,255,.2); color:#fff;}
+  .pill.mot{background:var(--gold); color:#5a4200;}
+  .stage-body{padding:18px 22px;}
+  /* Talent spine */
+  .spine{display:flex; gap:14px; align-items:center; background:var(--soft); border-radius:12px; padding:12px 16px; margin-bottom:16px;}
+  .spine .emo{font-size:30px;}
+  .spine .who{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--dark-blue);}
+  .spine .voice{font-style:italic; color:var(--ink);}
+  .spine .mood{font-size:12px; color:var(--muted); font-weight:600;}
+  /* Actor grid */
+  .actors{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px;}
+  .actor-card{border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; border-top:4px solid var(--muted);}
+  .actor-card[data-actor="talent"]{border-top-color:var(--blue);}
+  .actor-card[data-actor="ta"]{border-top-color:var(--aqua);}
+  .actor-card[data-actor="bl"]{border-top-color:var(--dark-gold);}
+  .actor-card[data-actor="pbp"]{border-top-color:var(--green);}
+  .actor-card[data-actor="plt"]{border-top-color:#7a3ea8;}
+  .actor-card .an{font-size:12.5px; font-weight:800; color:var(--dark-blue); margin-bottom:8px;}
+  .actor-card .f{margin:8px 0; font-size:13px;}
+  .actor-card .f .k{display:block; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:2px;}
+  .actor-card .pain{color:var(--dark-coral);}
+  .actor-card .breaks{display:inline-block; margin-top:5px; font-size:11px; background:#fff0d6; color:#9a6500; border-radius:6px; padding:2px 7px; font-weight:600;}
+  .actor-card .opp{color:var(--green);}
+  .actor-card .ns{display:inline-block; font-size:10.5px; font-weight:700; color:#fff; background:var(--green); border-radius:5px; padding:1px 6px; margin-left:4px;}
+  .actor-card .na{color:var(--muted); font-style:italic; font-size:12.5px;}
+  .metric{font-weight:700; color:var(--dark-coral);}
+  /* Backstage */
+  .backstage{margin-top:16px; border:1px dashed #b9c0cc; border-radius:12px; padding:12px 16px; background:#fbfcfe; font-size:13px;}
+  .backstage .k{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:var(--dark-aqua); margin-bottom:4px;}
+  /* filter behaviour */
+  body[data-filter]:not([data-filter="all"]) .actor-card{display:none;}
+  body[data-filter="talent"] .actor-card[data-actor="talent"],
+  body[data-filter="ta"] .actor-card[data-actor="ta"],
+  body[data-filter="bl"] .actor-card[data-actor="bl"],
+  body[data-filter="pbp"] .actor-card[data-actor="pbp"],
+  body[data-filter="plt"] .actor-card[data-actor="plt"]{display:block;}
+  .footer{color:var(--muted); font-size:12.5px; border-top:1px solid var(--line); margin-top:40px; padding-top:20px;}
+  @media (max-width:820px){ .strip{grid-template-columns:repeat(2,1fr);} .stage-head .tagline{margin-left:0;} }
+  @media print{ .filterbar{display:none;} body[data-filter] .actor-card{display:block!important;} .stage{break-inside:avoid;} }
+
+  /* ===== One-view matrix ===== */
+  .matrix{overflow-x:auto; margin:14px 0 6px; border:1px solid var(--line); border-radius:14px; background:#fff; -webkit-overflow-scrolling:touch;}
+  .mgrid{display:grid; grid-template-columns:118px repeat(7, minmax(0,1fr)); min-width:0;}
+  .mcell{border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:10px 11px; font-size:12px; vertical-align:top;}
+  .mgrid > .mcell:nth-child(8n+1){position:sticky; left:0; z-index:6; background:#f4f7fc; border-right:2px solid var(--line);}
+  .mgrid > .mcell:nth-child(-n+8){position:sticky; top:0; z-index:7;}
+  .mgrid > .mcell:nth-child(1){z-index:8;}
+  .mcorner{background:var(--dark-blue) !important; color:#fff; font-weight:700; font-size:12px; display:flex; flex-direction:column; justify-content:flex-end;}
+  .mcorner small{opacity:.8; font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em;}
+  .mhead{color:#fff;}
+  .mhead.s1,.mhead.s2,.mhead.s3{background:linear-gradient(135deg,#00126E,var(--t1));}
+  .mhead.s4,.mhead.s5,.mhead.s6{background:linear-gradient(135deg,#7a2233,var(--t3));}
+  .mhead.s7{background:linear-gradient(135deg,#2b3038,#5b6472);}
+  .mhead .no{font-size:20px; font-weight:800; opacity:.6; line-height:1;}
+  .mhead h4{margin:2px 0 4px; font-size:13.5px;}
+  .mhead .km{font-style:italic; opacity:.95; font-size:11px; margin-bottom:6px;}
+  .mhead .tagline{display:flex; gap:6px; flex-wrap:wrap;}
+  .mrowlabel{font-weight:800; color:var(--dark-blue); font-size:11px; text-transform:uppercase; letter-spacing:.02em; display:flex; align-items:center;}
+  .mrowlabel.actor{border-left:5px solid var(--muted);}
+  .mrowlabel.a-talent{border-left-color:var(--blue);}
+  .mrowlabel.a-ta{border-left-color:var(--aqua);}
+  .mrowlabel.a-bl{border-left-color:var(--dark-gold);}
+  .mrowlabel.a-pbp{border-left-color:var(--green);}
+  .mrowlabel.a-plt{border-left-color:#7a3ea8;}
+  .mspine{background:var(--soft);}
+  .mspine .emo{font-size:26px;}
+  .mspine .who{font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--dark-blue);}
+  .mspine .mood{font-size:11.5px; color:var(--muted); font-weight:600;}
+  .mspine .voice{font-style:italic; color:var(--ink); margin-top:3px; font-size:12.5px;}
+  .mback{background:#fbfcfe; font-size:12.5px; color:var(--ink);}
+  .mact .f{margin:0 0 9px;}
+  .mact .f:last-child{margin-bottom:0;}
+  .mact .f .k{display:block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:2px;}
+  .mact .pain{color:var(--dark-coral);}
+  .mact .opp{color:var(--green);}
+  .mact .breaks{display:inline-block; margin-top:5px; font-size:11px; background:#fff0d6; color:#9a6500; border-radius:6px; padding:2px 7px; font-weight:600;}
+  .mact .ns{display:inline-block; font-size:10.5px; font-weight:700; color:#fff; background:var(--green); border-radius:5px; padding:1px 6px; margin-left:4px;}
+  .mact .na{color:var(--muted); font-style:italic;}
+  /* pastel row tint per actor (same hue as the accent line) */
+  .mact.a-talent{background:#eef4fe;}
+  .mact.a-ta{background:#e8f7f8;}
+  .mact.a-bl{background:#fdf3e0;}
+  .mact.a-pbp{background:#ecf6ec;}
+  .mact.a-plt{background:#f3ecfa;}
+  .mgrid > .mcell.mrowlabel.a-talent{background:#e3edfd;}
+  .mgrid > .mcell.mrowlabel.a-ta{background:#dcf2f4;}
+  .mgrid > .mcell.mrowlabel.a-bl{background:#fbecca;}
+  .mgrid > .mcell.mrowlabel.a-pbp{background:#ddefdd;}
+  .mgrid > .mcell.mrowlabel.a-plt{background:#eadff6;}
+  /* filter: hide non-selected actor rows (each row = full set of 8 cells) */
+  body[data-filter]:not([data-filter="all"]) .arow{display:none;}
+  body[data-filter="talent"] .arow.a-talent,
+  body[data-filter="ta"] .arow.a-ta,
+  body[data-filter="bl"] .arow.a-bl,
+  body[data-filter="pbp"] .arow.a-pbp,
+  body[data-filter="plt"] .arow.a-plt{display:block;}
+  @media print{ body[data-filter] .arow{display:block !important;} .matrix{overflow:visible;} .mgrid{min-width:0;} }
+</style>
+</head>
+<body data-filter="all">
+
+<section class="cover">
+<div class="inner">
+<div class="brand">PHILIPS · People, Talent &amp; Succession</div>
+<span class="tag">Journey Blueprint · Service map</span>
+<h1>The Talent &amp; Succession Journey</h1>
+<p>How internal talent moves through succession, and where it breaks, across the seven-step process and the five people who run it. Grounded only in the listening sessions and the People Intelligence study.</p>
+<div class="legend">
+<span><span class="chip-theme" style="background:var(--t1)"></span><b>T1</b> Talent Identification &amp; Visibility</span>
+<span><span class="chip-theme" style="background:var(--t2)"></span><b>T2</b> Critical Role Identification &amp; Succession Planning</span>
+<span><span class="chip-theme" style="background:var(--t3)"></span><b>T3</b> Succession Readiness &amp; Development</span>
+</div>
+</div>
+</section>
+
+<div class="wrap">
+
+  <!-- LAYER 1 SUMMARY -->
+  <div class="kick">The journey at a glance</div>
+  <h2>Seven stages, one emotional arc, one headline pain each</h2>
+  <p class="lead">Read this strip in 30 seconds. The colour is the theme, the face is how the internal talent feels, and the red line is the single biggest thing that breaks at that stage.</p>
+
+  <div class="strip">
+<div class="scol tt2"><div class="sh"><small>Stage 1 · T2</small>Identify Critical Roles</div><div class="q">"Which roles matter most?"</div><div class="emo">😴<span>Unaware</span></div><div class="hp"><b>No shared, strategy-linked definition</b> of "critical role"; designation is top-heavy.</div></div>
+<div class="scol tt2"><div class="sh"><small>Stage 2 · T2</small>Define Success Profiles</div><div class="q">"What does great look like?"</div><div class="emo">😴<span>Unaware</span></div><div class="hp"><b>No success profiles</b> and no common view of what future leaders need.</div></div>
+<div class="scol tt1"><div class="sh"><small>Stage 3 · T1</small>Identify Talent</div><div class="q">"Who has potential?"</div><div class="emo">😶<span>Invisible</span></div><div class="hp"><b>Talent is invisible</b> unless tagged; 18.1% talent cards; 36% of top talent off-plan.</div></div>
+<div class="scol tt3"><div class="sh"><small>Stage 4 · T3</small>Assess Readiness</div><div class="q">"How ready are they?"</div><div class="emo">😐<span>Uncertain</span></div><div class="hp"><b>Readiness is fragile</b>; 62% of CG80+ have no Ready Now successor.</div></div>
+<div class="scol tt3"><div class="sh"><small>Stage 5 · T3</small>Accelerate Development</div><div class="q">"How do we close the gaps?"</div><div class="emo">🙁<span>Unsupported</span></div><div class="hp"><b>We assess, we don't build</b>; support fades with seniority; programme funding cut.</div></div>
+<div class="scol tt3"><div class="sh"><small>Stage 6 · T3</small>Make Talent Decisions</div><div class="q">"Who moves when?"</div><div class="emo">😞<span>Stalled</span></div><div class="hp"><b>Plans don't convert</b> (12% in 17 months); we default to external hires.</div></div>
+<div class="scol ttg"><div class="sh"><small>Stage 7 · Governance</small>Monitor &amp; Refresh</div><div class="q">"Is the system working?"</div><div class="emo">🔁<span>Not involved</span></div><div class="hp"><b>No governed rhythm</b>; 89% of plans stale; outcomes not tracked.</div></div>
+</div>
+
+  <!-- FILTER -->
+  <div class="filterbar">
+<span class="lab">Focus on one persona:</span>
+<span class="chip active" data-f="all">All personas</span>
+<span class="chip" data-f="talent">Internal talent</span>
+<span class="chip" data-f="ta">Talent Acquisition</span>
+<span class="chip" data-f="bl">Business leader / hiring mgr</span>
+<span class="chip" data-f="pbp">PBP / People Partner</span>
+<span class="chip" data-f="plt">People LT / T&amp;S</span>
+</div>
+
+  <div class="kick">The whole journey in one view</div>
+  <h2>Stages across, personas down</h2>
+  <p class="lead">Every stage is a column and every persona is a row. Each cell shows what that persona does, where it hurts (and where the <em>system</em> breaks), and the opportunity, linked to the report's next-step actions (NS#).</p>
+
+  <div class="matrix"><div class="mgrid"><div class="mcell mcorner"><small>Stage →</small>Persona ↓</div><div class="mcell mhead s1"><div class="no">1</div><h4>Identify Critical Roles</h4><div class="km">"Which roles matter most?"</div><div class="tagline"><span class="pill theme">Theme 2</span></div></div><div class="mcell mhead s2"><div class="no">2</div><h4>Define Success Profiles</h4><div class="km">"What does great look like in this role?"</div><div class="tagline"><span class="pill theme">Theme 2</span></div></div><div class="mcell mhead s3"><div class="no">3</div><h4>Identify Talent</h4><div class="km">"Who has potential?"</div><div class="tagline"><span class="pill mot">Moment of truth · Is talent visible?</span><span class="pill theme">Theme 1</span></div></div><div class="mcell mhead s4"><div class="no">4</div><h4>Assess Readiness</h4><div class="km">"How ready are they?"</div><div class="tagline"><span class="pill theme">Theme 3</span></div></div><div class="mcell mhead s5"><div class="no">5</div><h4>Accelerate Development</h4><div class="km">"How do we close the gaps?"</div><div class="tagline"><span class="pill theme">Theme 3</span></div></div><div class="mcell mhead s6"><div class="no">6</div><h4>Make Talent Decisions</h4><div class="km">"Who moves when?"</div><div class="tagline"><span class="pill mot">Moment of truth · Internal vs external</span><span class="pill theme">Theme 3</span></div></div><div class="mcell mhead s7"><div class="no">7</div><h4>Monitor & Refresh</h4><div class="km">"Is the system working?"</div><div class="tagline"><span class="pill theme">Governance</span></div></div><div class="mcell mrowlabel">Talent experience</div><div class="mcell mspine"><span class="emo">😴</span><div><span class="who">Internal talent</span> <span class="mood">· Unaware</span><div class="voice">Not involved yet. The talent doesn't know their role is being weighed as critical or not.</div></div></div><div class="mcell mspine"><span class="emo">😴</span><div><span class="who">Internal talent</span> <span class="mood">· Unaware</span><div class="voice">Still not involved. No visibility into what "good" looks like for the roles they could progress into.</div></div></div><div class="mcell mspine"><span class="emo">😶</span><div><span class="who">Internal talent</span> <span class="mood">· Invisible</span><div class="voice">"Am I even in the system? After moving to Connected Care, talent support and visibility diminished."</div></div></div><div class="mcell mspine"><span class="emo">😐</span><div><span class="who">Internal talent</span> <span class="mood">· Uncertain</span><div class="voice">"Succession planning often felt like a tick-box exercise, lacking meaningful conversations."</div></div></div><div class="mcell mspine"><span class="emo">🙁</span><div><span class="who">Internal talent</span> <span class="mood">· Unsupported</span><div class="voice">"Early-career development was structured, but support diminished as I became more senior."</div></div></div><div class="mcell mspine"><span class="emo">😞</span><div><span class="who">Internal talent</span> <span class="mood">· Stalled / cynical</span><div class="voice">"Listed as a successor in Workday for years, but not considered when the role changed."</div></div></div><div class="mcell mspine"><span class="emo">🔁</span><div><span class="who">Internal talent</span> <span class="mood">· Not involved</span><div class="voice">The talent never sees this loop, but they live its consequences: a plan that quietly goes stale.</div></div></div><div class="mcell mrowlabel actor arow a-talent" data-actor="talent">Internal talent</div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f na">Not involved at this stage.</div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f na">Not involved at this stage.</div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f"><span class="k">Does</span>Rarely completes a talent card or flags interest.</div><div class="f"><span class="k">Pain</span><span class="pain">If not tagged, no one can find you, however good you are.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Make talent visible in one trusted place.</span><span class="ns">NS-2</span></div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f"><span class="k">Does</span>Is rated, but rarely told what "ready" requires of them.</div><div class="f"><span class="k">Pain</span><span class="pain">No clarity on the development needed to reach the next role.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Publish clear readiness criteria.</span><span class="ns">NS-1</span></div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f"><span class="k">Does</span>Seeks development, mostly through on-the-job experience.</div><div class="f"><span class="k">Pain</span><span class="pain">Not intentionally developed; support fades exactly as roles get bigger.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Back key talent with real investment.</span><span class="ns">NS-12</span></div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f"><span class="k">Does</span>Applies, or waits to be considered when a role opens.</div><div class="f"><span class="k">Pain</span><span class="pain">Passed over; only <span class="metric">12%</span> of successors promoted in 17 months.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Nomination must mean real consideration.</span><span class="ns">NS-4</span></div></div><div class="mcell mact arow a-talent" data-actor="talent"><div class="f na">Not involved at this stage.</div></div><div class="mcell mrowlabel actor arow a-ta" data-actor="ta">Talent Acquisition</div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Waits to learn which roles are critical to plan a pipeline.</div><div class="f"><span class="k">Pain</span><span class="pain">Role criticality is a position-level call TA isn't looped into early.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Earlier TA involvement in succession discussions.</span><span class="ns">NS-14</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Would match candidates to a success profile if one existed.</div><div class="f"><span class="k">Pain</span><span class="pain">"Having success profiles" is a stated gap.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Define success profiles for key roles.</span><span class="ns">NS-6</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Searches My Talent Finder, Workday, PPMs, LinkedIn and networks.</div><div class="f"><span class="k">Pain</span><span class="pain">"I'd love TA to have access to PPMs... GAME CHANGER." Falls back on networks.</span><br/><span class="breaks">System: talent cards only <span class="metric">18.1%</span> complete; updates "purely manager dependent"</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Trusted marketplace with TA access.</span><span class="ns">NS-2</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Uses readiness data as a reference when it exists.</div><div class="f"><span class="k">Pain</span><span class="pain">Readiness is "nice to have"; no access to leadership-assessment data.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Trusted, shared readiness signals.</span><span class="ns">NS-8</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Waits for ready talent; sources externally when the bench is thin.</div><div class="f"><span class="k">Pain</span><span class="pain">Weak pipeline pushes roles to external hires.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Shared build-vs-buy guidance.</span><span class="ns">NS-11</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Sources internal and external candidates.</div><div class="f"><span class="k">Pain</span><span class="pain">No shared build-vs-buy; defaults to external; senior external hires churn ~<span class="metric">20%</span>.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Publish make-vs-buy guidelines.</span><span class="ns">NS-11</span></div></div><div class="mcell mact arow a-ta" data-actor="ta"><div class="f"><span class="k">Does</span>Wants a recurring joint talent review with T&amp;S.</div><div class="f"><span class="k">Pain</span><span class="pain">No shared cadence between TA and succession.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Joint talent reviews on a rhythm.</span><span class="ns">NS-14</span></div></div><div class="mcell mrowlabel actor arow a-bl" data-actor="bl">Business leader / hiring mgr</div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Flags critical roles in Workday.</div><div class="f"><span class="k">Pain</span><span class="pain">No shared definition of "critical role"; designation is top-heavy.</span><br/><span class="breaks">System: 439 flagged (0.6%), <span class="metric">73% CG80+</span></span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Name the critical few from strategy + a "stop doing" list.</span><span class="ns">NS-9</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Should define what "good" looks like for the role.</div><div class="f"><span class="k">Pain</span><span class="pain">"No common view what future leaders need."</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Agree future-leader capabilities + success profiles.</span><span class="ns">NS-6</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Nominates successors from the people they already know.</div><div class="f"><span class="k">Pain</span><span class="pain">Visibility and sponsorship beat evidence; capable-but-quiet talent is missed.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Objective identification; map top talent to plans.</span><span class="ns">NS-1</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Rates successors Ready Now / ACR / ANR.</div><div class="f"><span class="k">Pain</span><span class="pain">Writes off internals as "not ready" without a fair review.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Deepen the Ready Now bench for at-risk roles.</span><span class="ns">NS-5</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Should build the bench for their critical roles.</div><div class="f"><span class="k">Pain</span><span class="pain">"We assess talent, we don't build talent." Accountability is inconsistent.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Build broad leaders earlier; hold leaders to it.</span><span class="ns">NS-5</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Makes the final internal-vs-external call.</div><div class="f"><span class="k">Pain</span><span class="pain">Reaches for the "safer" external hire; dismisses internal readiness.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Require a documented rationale &amp; fair review.</span><span class="ns">NS-4</span></div></div><div class="mcell mact arow a-bl" data-actor="bl"><div class="f"><span class="k">Does</span>Should review succession yearly.</div><div class="f"><span class="k">Pain</span><span class="pain">Plans go stale; no consistent review moment.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Set a yearly review cadence.</span><span class="ns">NS-14</span></div></div><div class="mcell mrowlabel actor arow a-pbp" data-actor="pbp">PBP / People Partner</div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Facilitates role-criticality with the business.</div><div class="f"><span class="k">Pain</span><span class="pain">Each BU/zone uses different templates; "unclear critical role focus."</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Shared, consistent criticality criteria.</span><span class="ns">NS-11</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Helps define profiles via TTV.</div><div class="f"><span class="k">Pain</span><span class="pain">TTV maturity is uneven; PD/PH are more mature, others less.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Scale the mature TTV practice enterprise-wide.</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Runs the talent review.</div><div class="f"><span class="k">Pain</span><span class="pain">Informal networks override the formal review; inconsistent inputs.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Evidence-based, consistent talent reviews.</span><span class="ns">NS-1</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Calibrates readiness in talent reviews.</div><div class="f"><span class="k">Pain</span><span class="pain">No shared definition of "potential" or "readiness."</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Standardise readiness &amp; potential definitions.</span><span class="ns">NS-1</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Builds development plans.</div><div class="f"><span class="k">Pain</span><span class="pain">Nomination isn't linked to any development action.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Attach development to every nomination.</span><span class="ns">NS-4</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Advises on the candidate slate.</div><div class="f"><span class="k">Pain</span><span class="pain">"Plans are in place but external hires are made instead."</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Convert plans into actual appointments.</span><span class="ns">NS-4</span></div></div><div class="mcell mact arow a-pbp" data-actor="pbp"><div class="f"><span class="k">Does</span>Refreshes plans.</div><div class="f"><span class="k">Pain</span><span class="pain"><span class="metric">89%</span> of plans not updated in 6 months; different templates.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Make plan recency a health metric.</span><span class="ns">NS-8</span></div></div><div class="mcell mrowlabel actor arow a-plt" data-actor="plt">People LT / T&amp;S</div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Owns the criticality framework.</div><div class="f"><span class="k">Pain</span><span class="pain">Designed inside-out from process, not strategy.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Anchor identification in strategy.</span><span class="ns">NS-3</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Owns the success-profile and TTV standard.</div><div class="f"><span class="k">Pain</span><span class="pain">TTV is valued but heavy and backward-looking; success metrics unclear.</span><br/><span class="breaks">System: TTV cumbersome</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Lighten TTV; make it forward-looking.</span><span class="ns">NS-3</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Maintains talent data and pools.</div><div class="f"><span class="k">Pain</span><span class="pain"><span class="metric">51%</span> named in a plan, but <span class="metric">36%</span> of top talent are on none; <span class="metric">7%</span> on more than three.</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Enterprise talent pools &amp; success profiles.</span><span class="ns">NS-6</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Tracks readiness stages across CG80+.</div><div class="f"><span class="k">Pain</span><span class="pain">Coverage exists but readiness is fragile.</span><br/><span class="breaks">System: <span class="metric">62%</span> have no Ready Now; no shared "Ready Now" definition</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Make readiness a tracked health metric.</span><span class="ns">NS-8</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Runs development programmes (e.g. Inspire).</div><div class="f"><span class="k">Pain</span><span class="pain">Programme funding cut / paused; access is exclusive; SWP disconnected from the talent ecosystem.</span><br/><span class="breaks">System: no dev action attached to nominations</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Connect workforce planning to talent.</span><span class="ns">NS-13</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Tracks conversion of plans to appointments.</div><div class="f"><span class="k">Pain</span><span class="pain"><span class="metric">12%</span> conversion; outcomes can't be calculated with the current process.</span><br/><span class="breaks">System: nomination isn't outcome-tracked</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Track conversion &amp; success metrics.</span><span class="ns">NS-8</span></div></div><div class="mcell mact arow a-plt" data-actor="plt"><div class="f"><span class="k">Does</span>Governs the succession system.</div><div class="f"><span class="k">Pain</span><span class="pain">No governed cadence; outcomes not tracked; benchmarks show a governed pipeline works best.</span><br/><span class="breaks">System: <span class="metric">89%</span> stale; no conversion tracking</span></div><div class="f"><span class="k">Opportunity</span><span class="opp">Govern succession like the benchmark companies.</span><span class="ns">NS-14</span></div></div><div class="mcell mrowlabel">Backstage · System &amp; data</div><div class="mcell mback">Workday critical-role flag. <span class="metric">439</span> critical roles, <span class="metric">73%</span> CG80+, and <span class="metric">41%</span> of critical-role incumbents are "too early to rate" on performance.</div><div class="mcell mback">TTV templates carry the profile work, but shared success profiles are largely absent, so "what good looks like" isn't written down.</div><div class="mcell mback">Workday · Talent Cards · Talent Finder. Talent-card completion <span class="metric">18.1%</span> of 66,190; internal-fill varies <span class="metric">93.8% to 47.6%</span> across markets; "talent isn't treated as a Philips-wide asset."</div><div class="mcell mback">Readiness stages Ready Now / ACR / ANR. Of covered roles: <span class="metric">31% Strong · 45% Concerns · 24% Weak</span>. <span class="metric">62%</span> of all CG80+ have no Ready Now successor.</div><div class="mcell mback">Development programmes exist but funding decreased and several are paused. Nominations carry no attached development actions, so identification never compounds into readiness.</div><div class="mcell mback">Workday plan vs actual hire. Conversion <span class="metric">12%</span> in 17 months; CG90+ external-hire churn ~<span class="metric">20%</span> (vs <5% company-wide). The study notes conversion "cannot be calculated with the current process."</div><div class="mcell mback">Recency: only <span class="metric">11.3%</span> of CG80+ plans updated in 6 months (<span class="metric">89%</span> stale). No outcome tracking. Benchmarks (Microsoft, Amazon, Unilever, J&J, PepsiCo) run board-owned, yearly-cadence, readiness-based governed pipelines.</div></div></div>
+
+  <div class="footer">
+<p><strong>Talent &amp; Succession · Journey Blueprint.</strong> Grounded only in the listening sessions and the People Intelligence Succession &amp; Mobility study in <code>private/docs/T&amp;S_Listening research/md/</code>. Cells marked "not involved" mean the persona has no role at that stage. "System" tags mark where the process or data breaks. Opportunities link to the report's next-step actions (NS#).</p>
+<p><strong>Known gaps (flagged, not filled):</strong> conversion can't be calculated with the current process; no reason-codes for external hires when a successor existed; 41% of critical-role incumbents are "too early to rate"; no DEI/tenure breakdown on why 36% of top talent are off-plan. Single-sourced figures (≈20% CG90+ churn; programme funding cut) treated as directional.</p>
+</div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(){
+      document.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('active'); });
+      c.classList.add('active');
+      document.body.setAttribute('data-filter', c.getAttribute('data-f'));
+    });
+  });
+</script>
+</body>
+</html>
